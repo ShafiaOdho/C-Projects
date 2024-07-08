@@ -1,0 +1,105 @@
+#include <iostream>
+#include <string>
+using namespace std;
+// Maximum number of students in the database
+const int MAX_STUDENTS = 50;
+// Structure to represent a student
+struct Student 
+{
+    string name;
+    int id;
+    char grades;
+};
+// Function to add a new student to the database
+void addStudent(Student students[], int& numStudents) 
+{
+    if (numStudents < MAX_STUDENTS) 
+	{
+        cout << "Enter student name: ";
+        cin >> students[numStudents].name;
+
+        cout << "Enter student ID: ";
+        cin >> students[numStudents].id;
+
+        cout << "Enter student grades: ";
+        cin >> students[numStudents].grades;
+
+        numStudents++;
+        cout << "Student added successfully.\n";
+    } 
+	else 
+	{
+        cout << "Error: Database is full. Cannot add more students.\n";
+    }
+}
+// Function to delete a student from the database by ID
+void deleteStudent(Student students[], int& numStudents) 
+{
+    int deleteID;
+    cout << "Enter the ID of the student to delete: ";
+    cin >> deleteID;
+
+    bool found = false;
+    for (int i = 0; i < numStudents; ++i)
+	 {
+        if (students[i].id == deleteID) 
+		{
+            // Move the last student to the position of the deleted student
+            students[i] = students[numStudents - 1];
+            numStudents--;
+            found = true;
+            cout << "Student deleted successfully.\n";
+            break;
+        }
+    }
+    if (!found) 
+	{
+        cout << "Error: Student with ID " << deleteID << " not found.\n";
+    }
+}
+// Function to display all student records
+void displayStudents(const Student students[], int numStudents) 
+{
+    cout << "Student Records:\n";
+    for (int i = 0; i < numStudents; ++i) 
+	{
+        cout << "Name: " << students[i].name << "\tID: " << students[i].id << "\tGrades: " << students[i].grades << endl;
+    }
+}
+int main() 
+{
+    Student studentDatabase[MAX_STUDENTS];
+    int numStudents = 0;
+    int choice;
+    do 
+	{
+    	cout<<endl;
+        cout << "\tStudent Database Management System\n";
+        cout << "1. Add Student\n";
+        cout << "2. Delete Student\n";
+        cout << "3. Display Students\n";
+        cout << "4. Quit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) 
+		{
+            case 1:
+                addStudent(studentDatabase, numStudents);
+                break;
+            case 2:
+                deleteStudent(studentDatabase, numStudents);
+                break;
+            case 3:
+                displayStudents(studentDatabase, numStudents);
+                break;
+            case 4:
+                cout << "Exiting program. Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } 
+	while (choice != 4);
+    return 0;
+}
